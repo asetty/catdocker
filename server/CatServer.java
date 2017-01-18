@@ -11,6 +11,7 @@ public class CatServer {
 	private String filename;
 	private int port;
 	private static final String LN_RQST = "LINE";
+  public static final String END_SIG = "END";
 
 	public CatServer(String filename, int port) {
 		this.filename = filename;
@@ -25,42 +26,38 @@ public class CatServer {
 
 	public void run() throws IOException {
 		serverSocket = new ServerSocket(port);
-		System.out.println("hostname: " + 
-			serverSocket.getInetAddress().getHostName());
+			serverSocket.getInetAddress().getHostName();
 		BufferedReader fileBuffer = null;
 
 		try {
 			fileBuffer = new BufferedReader(new FileReader(filename));
 			while(true) {
 				Socket socket = serverSocket.accept();
-				System.out.println("after accept()");
 				BufferedReader in = new BufferedReader(
 					new InputStreamReader(socket.getInputStream()));
 				PrintWriter out = new PrintWriter(socket.getOutputStream());
 				
 				String input;
 				String line;
-				System.out.println("before loop");
 				while((input = in.readLine()) != null) {
 
-					System.out.println(input);
 					if(input.equals(LN_RQST)) {
-						System.out.println("got line request");
 
 						if((line = fileBuffer.readLine()) != null) {
-							System.out.println("sending: " + line);
-							out.write(line + "\n");
+							out.write(line.toUpperCase() + "\n");
 							out.flush();
 						} else {
 							break;
 						}
 
-					}
+					} else if(input.equals(END_SIG)) {
+              out.write(END_SIG + "\n");
+              out.flush();
+          }
+              
 
 				}
-				System.out.println("after loop");
 				in.close();
-				System.out.println("closed reader");
 			}
 		} finally {
 			serverSocket.close();

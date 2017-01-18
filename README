@@ -1,0 +1,13 @@
+ To run the demo execute to 'script.sh' at a bash terminal
+
+ This will run the necessary docker commands to build the
+ images for the catclient and catserver, as well as the
+ shared data volume.
+
+ The client will echo the response received from the server
+ as well as 'OK' if the response corresponds to a line
+ in the file, or 'MISSING' if it is not.
+
+ The client will send the word 'END' with new line as the last
+ request to the server signalling to close the socket when
+ it is acknowleged.
