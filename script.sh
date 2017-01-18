@@ -4,7 +4,9 @@ docker build -t catserver ./server
 docker build -t catclient ./client
 docker run -d  --name datavol datacontainer /bin/bash
 docker run -d -P --volumes-from datavol --name=server catserver
-docker run -P --volumes-from datavol --name=client --link=server catclient
+HOST="$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' server)"
+docker run -P --volumes-from datavol --name=client catclient \
+java CatClient /data/strings.txt $HOST 8000
 docker stop datavol
 docker stop server
 docker stop client

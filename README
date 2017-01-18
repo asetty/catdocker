@@ -11,3 +11,7 @@
  The client will send the word 'END' with new line as the last
  request to the server signalling to close the socket when
  it is acknowleged.
+ 
+ After the client closesthe connection, the docker container finishes
+ and all containers are stopped and removed.
+

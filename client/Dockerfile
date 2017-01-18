@@ -5,4 +5,3 @@ RUN apt-get install -y openjdk-7-jdk
 
 COPY CatClient.java /CatClient.java
 RUN javac CatClient.java
-ENTRYPOINT java CatClient /data/strings.txt server 8000
